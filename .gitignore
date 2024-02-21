@@ -1,0 +1,6 @@
+
+bin/
+obj/
+emptyIonicMobile/
+.DS_Store
+*.sln
