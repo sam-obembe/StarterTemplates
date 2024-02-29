@@ -2,22 +2,26 @@ package main
 
 import (
 	"api/handlers"
+	"api/middleware"
 	"fmt"
 	"net/http"
+	"os"
 )
 
 func main() {
 
-	port := "5000"
-
-	http.HandleFunc("/test", handlers.TestHandler)
-	http.HandleFunc("/notFoundTest", func(w http.ResponseWriter, r *http.Request) {
+	var envPort = os.Getenv("API_PORT")
+	fmt.Println(envPort)
+	//var port = "5000"
+	mux := http.NewServeMux()
+	mux.HandleFunc("GET /test", middleware.InterceptorLogger(handlers.TestHandler))
+	mux.HandleFunc("/notFound", func(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 	})
-	http.HandleFunc("/unauthorized", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/unauthorized", func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Unuathorized", http.StatusUnauthorized)
 	})
 
-	fmt.Println("Running on " + port)
-	http.ListenAndServe(":"+port, nil)
+	//fmt.Println("Running on " + port)
+	http.ListenAndServe(":"+envPort, mux)
 }
