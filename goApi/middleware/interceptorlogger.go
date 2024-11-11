@@ -7,13 +7,12 @@ import (
 
 func InterceptorLogger(next http.HandlerFunc) http.HandlerFunc {
 
-	var interceptorFunc = func(w http.ResponseWriter, r *http.Request) {
-
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
 		//do stuff here
 		log.Default().Println(r.URL.Path)
 
 		next.ServeHTTP(w, r)
 	}
 
-	return http.HandlerFunc(interceptorFunc)
 }

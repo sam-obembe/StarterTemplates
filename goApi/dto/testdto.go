@@ -9,3 +9,15 @@ type TestDto struct {
 func (t *TestDto) ChangeName(name string) {
 	t.Name = name
 }
+
+func (t *TestDto) ChangeAge(age int) {
+	t.Age = age
+}
+
+func (t *TestDto) AddHobby(hobby string) {
+	t.Hobbies = append(t.Hobbies, hobby)
+}
+
+func (t *TestDto) SetHobbies(hobbies []string) {
+	t.Hobbies = hobbies
+}

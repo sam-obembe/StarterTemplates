@@ -1,0 +1,4 @@
+
+type Demo = {
+    message: string
+}
