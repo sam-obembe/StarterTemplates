@@ -8,3 +8,4 @@ data_volume/
 swagger-ui-5.17.14
 node_modules/
 coverage/
+dist/

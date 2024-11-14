@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
+    "build": "tsc",
     "start": "tsc && node --env-file=.env dist/app.js"
   },
   "keywords": [],
