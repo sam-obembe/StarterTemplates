@@ -1,0 +1,6 @@
+@DotnerStarterApi_HostAddress = http://localhost:5123
+
+GET {{DotnerStarterApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
