@@ -13,3 +13,10 @@ func ChainMiddleware(handler http.HandlerFunc, middleware []MiddlewareFunc) http
 
 	return final
 }
+
+func AuthMiddleware(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		//do stuff here
+		next.ServeHTTP(w, r)
+	}
+}

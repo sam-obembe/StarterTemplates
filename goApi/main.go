@@ -3,6 +3,7 @@ package main
 import (
 	"api/handlers"
 	"api/middleware"
+	"api/pkg/auth"
 	"fmt"
 	"html/template"
 	"log"
@@ -24,7 +25,9 @@ func main() {
 	var mux = http.NewServeMux()
 	var fs = http.FileServer(http.Dir("assets"))
 
-	mux.Handle("/assets/*", http.StripPrefix("/assets/", fs))
+	mux.Handle("/assets/", http.StripPrefix("/assets/", fs))
+
+	auth.MapAuthHandlers(mux)
 
 	mux.HandleFunc("GET /test", middleware.InterceptorLogger(handlers.TestHandler))
 
