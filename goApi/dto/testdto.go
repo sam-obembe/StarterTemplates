@@ -1,5 +1,9 @@
 package dto
 
+type DtoValidator interface {
+	Validate() (bool, error)
+}
+
 type TestDto struct {
 	Name    string   `json:"name"`
 	Age     int      `json:"age"`
@@ -20,4 +24,8 @@ func (t *TestDto) AddHobby(hobby string) {
 
 func (t *TestDto) SetHobbies(hobbies []string) {
 	t.Hobbies = hobbies
+}
+
+func (t *TestDto) Validate() bool {
+	return false
 }
