@@ -2,8 +2,8 @@ package main
 
 import (
 	"api/handlers"
-	"api/middleware"
 	"api/pkg/auth"
+	"api/pkg/middleware"
 	"log"
 	"net/http"
 	"os"
