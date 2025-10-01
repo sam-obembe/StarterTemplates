@@ -4,8 +4,6 @@ import (
 	"api/handlers"
 	"api/middleware"
 	"api/pkg/auth"
-	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -23,9 +21,9 @@ func main() {
 
 	var envPort = loadEnvValue("API_PORT")
 	var mux = http.NewServeMux()
-	var fs = http.FileServer(http.Dir("assets"))
+	var fs = http.FileServer(http.Dir("swagger"))
 
-	mux.Handle("/assets/", http.StripPrefix("/assets/", fs))
+	mux.Handle("/swagger/", http.StripPrefix("/swagger/", fs))
 
 	auth.MapAuthHandlers(mux)
 
@@ -37,13 +35,6 @@ func main() {
 
 	mux.HandleFunc("/unauthorized", func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Unuathorized", http.StatusUnauthorized)
-	})
-
-	mux.HandleFunc("GET /swagger/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("here")
-		var t, _ = template.ParseFiles("views/swagger.html")
-
-		t.Execute(w, nil)
 	})
 
 	log.Default().Println("Listening on :" + envPort)
