@@ -1,9 +1,8 @@
 package main
 
 import (
+	"api/data"
 	"api/handlers"
-	"api/pkg/auth"
-	"api/pkg/middleware"
 	"log"
 	"net/http"
 	"os"
@@ -17,17 +16,22 @@ func loadEnvValue(key string) string {
 	return env
 }
 
+func RestMiddleware(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		next.ServeHTTP(w, r)
+	}
+}
+
 func main() {
 
 	var envPort = loadEnvValue("API_PORT")
+	var dbConnection = loadEnvValue("DB_CONNECTION")
 	var mux = http.NewServeMux()
-	var fs = http.FileServer(http.Dir("swagger"))
 
-	mux.Handle("/swagger/", http.StripPrefix("/swagger/", fs))
+	data.InitializePostgres(dbConnection)
 
-	auth.MapAuthHandlers(mux)
-
-	mux.HandleFunc("GET /test", middleware.InterceptorLogger(handlers.TestHandler))
+	mux.HandleFunc("GET /test", RestMiddleware(handlers.TestHandler))
 
 	mux.HandleFunc("/notFound", func(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)

@@ -1,0 +1,14 @@
+version: '3.9'
+services:
+  mygoapi:
+    image: mygoapi
+    networks:
+      - local_dev_env
+    env_file:
+    - .env
+    ports:
+      - 5252:5000
+
+networks:
+  local_dev_env:
+   external: true
