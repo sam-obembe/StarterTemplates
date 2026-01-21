@@ -23,14 +23,7 @@ func RestMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
-func main() {
-
-	var envPort = loadEnvValue("API_PORT")
-	var dbConnection = loadEnvValue("DB_CONNECTION")
-	var mux = http.NewServeMux()
-
-	data.InitializePostgres(dbConnection)
-
+func RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("GET /test", RestMiddleware(handlers.TestHandler))
 
 	mux.HandleFunc("/notFound", func(w http.ResponseWriter, r *http.Request) {
@@ -41,7 +34,16 @@ func main() {
 		http.Error(w, "Unuathorized", http.StatusUnauthorized)
 	})
 
-	log.Default().Println("Listening on :" + envPort)
+}
 
+func main() {
+
+	var envPort = loadEnvValue("API_PORT")
+	var dbConnection = loadEnvValue("DB_CONNECTION")
+	var mux = http.NewServeMux()
+
+	data.InitializePostgres(dbConnection)
+	RegisterRoutes(mux)
+	log.Default().Println("Listening on :" + envPort)
 	http.ListenAndServe(":"+envPort, mux)
 }

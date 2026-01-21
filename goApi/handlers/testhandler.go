@@ -8,10 +8,15 @@ import (
 
 func TestHandler(w http.ResponseWriter, r *http.Request) {
 
-	res := dto.TestDto{
+	obj := dto.TestDto{
 		Name:    "Sam",
 		Age:     28,
 		Hobbies: []string{"run", "walk", "swim"},
+	}
+
+	res := dto.Response{
+		Message: "success",
+		Data:    obj,
 	}
 
 	json.NewEncoder(w).Encode(res)
