@@ -1,0 +1,6 @@
+out/
+obj/
+bin/
+.idea/
+.git/
+*.sh

@@ -1,13 +1,28 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+#image size 141.19MB
+FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS build
 WORKDIR /app
 COPY . .
 RUN ls
 RUN dotnet restore 
-RUN dotnet publish -c Release -o project
+RUN dotnet publish -c Release -o out
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine
-EXPOSE 8080
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
+EXPOSE 5000
 WORKDIR /api
-COPY --from=build /app/project .
+COPY --from=build /app/out .
 RUN ls
-CMD ["./DotnetStarterApi"]
+CMD ["./DotnerStarterApi"]
+
+#img size 181.39MB
+# FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS build
+# WORKDIR /app
+# COPY . .
+# RUN ls
+# RUN dotnet restore 
+# RUN dotnet publish -c Release -o out
+
+# FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble-chiseled-extra
+# EXPOSE 5000
+# WORKDIR /api
+# COPY --from=build /app/out .
+# ENTRYPOINT ["./DotnerStarterApi"]

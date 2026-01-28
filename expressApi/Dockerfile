@@ -12,4 +12,4 @@ COPY --from=build /api/package.json .
 COPY --from=build /api/public .
 RUN npm install --omit=dev
 EXPOSE 3000
-CMD ["npm","start"]
+CMD ["node","app.js"]
