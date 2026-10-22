@@ -1,3 +1,3 @@
 module goWeb
 
-go 1.23.6
+go 1.27.2

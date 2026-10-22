@@ -16,6 +16,9 @@ func main() {
 	var port = ":7210"
 	var mux = http.NewServeMux()
 
+	fs := http.FileServer(http.Dir("public"))
+	mux.Handle("/public/", http.StripPrefix("/public/", fs))
+
 	mux.HandleFunc("/", indexHandler)
 
 	log.Default().Println("Listening on " + port)

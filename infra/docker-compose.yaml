@@ -1,0 +1,5 @@
+version: '3.8'
+
+networks:
+  local_dev_env:
+    driver: bridge
