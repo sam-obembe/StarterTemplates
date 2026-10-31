@@ -1,4 +1,0 @@
-
-type Demo = {
-    message: string
-}
